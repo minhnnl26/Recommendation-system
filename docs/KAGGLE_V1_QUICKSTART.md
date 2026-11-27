@@ -2,6 +2,8 @@
 
 Notebook tự chứa code: [`music4all_kaggle_v1_quick.ipynb`](../recommender/notebooks/music4all_kaggle_v1_quick.ipynb). Không cần upload code ZIP, clone GitHub hoặc xin audio trước. Nhu cầu full Music4All vẫn giữ cho giai đoạn sau.
 
+Đã có một lần chạy trên dữ liệu thật ở local: [bảng kết quả V1](experiments/KAGGLE_V1_LOCAL_SMOKE.md), 694 user, Recall@10 test ALS 0,12 và hybrid 0,16 trên 100 user eval. Đây không phải kết quả đã chạy trên Kaggle; giữ đúng nhãn sample khi trình bày.
+
 ## Các bước gửi cho bạn training
 
 1. Nhận hai file Onion: `userid_trackid_count.tsv.bz2` và `id_genres_tf-idf.tsv.bz2`. Không gửi `.env`, key, token hoặc mật khẩu. Không cần audio/lyrics/timestamp cho V1.
