@@ -1,0 +1,23 @@
+{
+  "source_snapshot_sha256": "9c669b812ba6535a3eb5325a9ae9d37bf4d5ad6aa24f9870488b54de216fed96",
+  "output_sha256": "901f18d304ae7fba48173f4517d085941db07a186b8d36cb89c97a0a33215c50",
+  "source_slide_count": 14,
+  "output_slide_count": 19,
+  "new_slides": 5,
+  "data_slide_numbers": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "new_chart_files": [
+    "genres_top10.png",
+    "metadata_completeness.png",
+    "coverage_by_tracks_plays.png"
+  ],
+  "notes": "Original slides retained; provider slide moved before architecture; two method descriptions aligned to measured dataset inputs."
+}

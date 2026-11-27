@@ -1,0 +1,27 @@
+{
+  "record": "https://zenodo.org/records/15394646",
+  "sampled": false,
+  "files": {
+    "README.md": {
+      "bytes": 20493,
+      "md5": "df379ed27dcefe5652b8db4e6783e304",
+      "sha256": "6ef49d6a31cd4a65dcbf69433d47c4a3902edf02de9862ae9764761ac815e04e"
+    },
+    "id_genres_tf-idf.tsv.bz2": {
+      "bytes": 2963194,
+      "md5": "a742b5fa1d2e2ce780101773e57bb7f5",
+      "sha256": "a35f6a9951d3f8fd23df7a7afc69d0fc0829bf2f36430763c8c66db29a6afa99"
+    },
+    "id_tags_dict.tsv.bz2": {
+      "bytes": 14817003,
+      "md5": "9c1ca4a3e04a9696b9449ec54ac40cd5",
+      "sha256": "8a62f5373ae386ea9de3c8c34391559be49a8f925579a509992485f66af84bdb"
+    },
+    "userid_trackid_count.tsv.bz2": {
+      "bytes": 550649499,
+      "md5": "314b51196a9c8f333c7fefc0711760a1",
+      "sha256": "90cbc25042b8cc8ea18d96393ece46791206b96476a72545d8f33423568b4e64"
+    }
+  },
+  "analyzed_at_utc": "2026-10-30T09:13:33.917005+00:00"
+}

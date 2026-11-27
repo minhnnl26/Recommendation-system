@@ -1,0 +1,16 @@
+{
+  "dataset": "Last.fm 1K original events, full dataset",
+  "source": "https://github.com/eifuentes/lastfm-dataset-1K/releases/download/v1.0/userid-timestamp-artid-artname-traid-traname.tsv.zip",
+  "cutoff": "2009-05-05",
+  "analyzed_at_utc": "2026-10-30T08:44:15.265430+00:00",
+  "sampled": false,
+  "tsv": {
+    "md5": "64747b21563e3d2aa95751e0ddc46b68",
+    "sha256": "529b8f83aadabdead189de06d816e213557221b92cb43c46f25840e07ef3399a",
+    "bytes": 2529193595,
+    "physical_lines": 19150868
+  },
+  "matches_original_md5": true,
+  "duckdb_version": "1.4.1",
+  "matplotlib_version": "3.10.7"
+}

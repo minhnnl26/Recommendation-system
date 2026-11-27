@@ -1,6 +1,40 @@
 # Music Recommendation
 
-Foundation for a music recommendation web app. This repository currently contains only the project skeleton: a Next.js frontend, a FastAPI backend, Supabase migration folder, and placeholder recommender package.
+A music recommendation class project with a Next.js frontend, async FastAPI catalog API, Supabase catalog migrations, and an independent local Music4All-Onion recommendation prototype.
+
+## Full Music4All training on Kaggle
+
+The large-dataset track requires the **complete original Music4All catalog**: 109,269 tracks with metadata, 30-second MP3 excerpts and lyrics, plus Music4All-Onion interactions/features. Full original audio is obtained from the authors; it is not included in this repository. Original Music4All contains excerpts, not full-length recordings.
+
+- [Download/access, full-data requirements, inventory gate, private storage and Drive](docs/MUSIC4ALL_DATASET_SETUP.md)
+- [Kaggle setup: what to upload, run each stage, save outputs and run inference](docs/KAGGLE_TRAINING.md)
+- [Importable Kaggle notebook](recommender/notebooks/music4all_kaggle.ipynb)
+- [Full-catalog configuration](recommender/training/configs/full.json)
+
+```bash
+uv sync --project recommender/training --dev --locked
+python scripts/package_kaggle_code.py
+# Upload artifacts/kaggle/training-code.zip as a private Kaggle input Dataset.
+# Import the notebook, attach the complete original dataset and Onion timestamps,
+# edit input paths, then run validation → preparation → ALS fit → evaluation.
+```
+
+Training exports ALS + genre/popularity hybrid artifacts and an offline prediction CLI. An optional separate multi-label genre classifier uses audio features. Full Kaggle execution still requires your original dataset access and a Kaggle session; it has not been run here. The new ALS artifacts do not automatically replace the SQLite Item-kNN model used by `/research`.
+
+## Music4All first working prototype
+
+See [the full local walkthrough](docs/MUSIC4ALL_LOCAL_DEMO.md). This mode does not use Supabase, credentials or cloud services. It supports research catalog search and hybrid recommendations; the downloaded dataset has no song names or playable audio.
+
+```bash
+# From the repository root, using the downloaded/audited dataset
+uv run --project recommender/eda python recommender/eda/prepare_research_demo.py
+uv run --project backend uvicorn app.research_demo:app --host 127.0.0.1 --port 8001
+
+# In another terminal
+cd frontend
+npm run dev
+# Open http://localhost:3000/research
+```
 
 ## Structure
 
@@ -44,7 +78,7 @@ Run these commands from `backend/`:
 
 ```bash
 # Unit tests only (does not require Docker or Supabase)
-uv run pytest -m "not integration"
+uv run pytest -m "not integration and not research_integration"
 
 # Integration tests; provide local Supabase values explicitly, never production values
 SUPABASE_URL=http://127.0.0.1:54321 SUPABASE_PUBLISHABLE_KEY="<local-anon-key>" \
@@ -66,4 +100,4 @@ Commit only `.env.example` files. Do not commit real `.env`, `.env.local`, servi
 
 ## Current Scope
 
-This foundation intentionally does not include recommendation models, database tables, Supabase policies, production deployment, or service-role usage in the browser.
+The Supabase catalog and player remain separate from the Music4All research demo. The demo adds an Item-kNN/content/popularity baseline on a bounded local subset. Authentication, production recommendation training, automatic provider ingestion and deployment remain future work. No service-role credentials are used in the browser.

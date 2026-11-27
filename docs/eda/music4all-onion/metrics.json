@@ -1,0 +1,350 @@
+{
+  "metadata": {
+    "genre_rows": 109269,
+    "genre_dimensions": 685,
+    "genre_tracks_nonzero": 109242,
+    "genre_tracks_zero": 27,
+    "genre_invalid_vectors": 0,
+    "tag_rows": 109269,
+    "tag_unique_ids": 108286,
+    "duplicate_tag_id_rows": 983,
+    "conflicting_tag_ids": 0,
+    "tag_tracks_nonempty": 88092,
+    "tag_tracks_empty": 20194,
+    "tag_invalid_dicts": 0,
+    "unique_positive_tags": 257510,
+    "metadata_id_intersection": 108286,
+    "metadata_both_nonempty": 88068,
+    "genres_per_track_distribution": {
+      "0": 27,
+      "1": 33120,
+      "2": 38315,
+      "3": 26236,
+      "4": 9266,
+      "5": 1908,
+      "6": 393,
+      "7": 4
+    },
+    "tags_per_track_distribution": {
+      "0": 20194,
+      "1": 3743,
+      "2": 2809,
+      "3": 2821,
+      "4": 2791,
+      "5": 2635,
+      "6": 2446,
+      "7": 2191,
+      "8": 1990,
+      "9": 1892,
+      "10": 1587,
+      "11": 1474,
+      "12": 1378,
+      "13": 1415,
+      "14": 1218,
+      "15": 1139,
+      "16": 1103,
+      "17": 1006,
+      "18": 943,
+      "19": 969,
+      "20": 926,
+      "21": 898,
+      "22": 885,
+      "23": 824,
+      "24": 826,
+      "25": 775,
+      "26": 770,
+      "27": 693,
+      "28": 738,
+      "29": 692,
+      "30": 623,
+      "31": 642,
+      "32": 633,
+      "33": 641,
+      "34": 659,
+      "35": 628,
+      "36": 596,
+      "37": 606,
+      "38": 643,
+      "39": 635,
+      "40": 615,
+      "41": 574,
+      "42": 573,
+      "43": 605,
+      "44": 547,
+      "45": 549,
+      "46": 525,
+      "47": 519,
+      "48": 555,
+      "49": 515,
+      "50": 541,
+      "51": 515,
+      "52": 474,
+      "53": 506,
+      "54": 484,
+      "55": 448,
+      "56": 514,
+      "57": 462,
+      "58": 412,
+      "59": 488,
+      "60": 452,
+      "61": 436,
+      "62": 394,
+      "63": 432,
+      "64": 419,
+      "65": 427,
+      "66": 402,
+      "67": 414,
+      "68": 419,
+      "69": 373,
+      "70": 362,
+      "71": 365,
+      "72": 388,
+      "73": 374,
+      "74": 361,
+      "75": 355,
+      "76": 321,
+      "77": 296,
+      "78": 307,
+      "79": 329,
+      "80": 313,
+      "81": 311,
+      "82": 316,
+      "83": 313,
+      "84": 320,
+      "85": 295,
+      "86": 276,
+      "87": 266,
+      "88": 294,
+      "89": 317,
+      "90": 305,
+      "91": 365,
+      "92": 372,
+      "93": 487,
+      "94": 770,
+      "95": 1236,
+      "96": 1856,
+      "97": 2890,
+      "98": 3582,
+      "99": 3445,
+      "100": 1833
+    },
+    "top_genres": [
+      [
+        "rock",
+        23949
+      ],
+      [
+        "pop",
+        20267
+      ],
+      [
+        "electronic",
+        11739
+      ],
+      [
+        "alternative rock",
+        7591
+      ],
+      [
+        "indie rock",
+        7353
+      ],
+      [
+        "metal",
+        6067
+      ],
+      [
+        "folk",
+        5580
+      ],
+      [
+        "singer-songwriter",
+        5379
+      ],
+      [
+        "classic rock",
+        5180
+      ],
+      [
+        "soul",
+        4975
+      ],
+      [
+        "experimental",
+        4194
+      ],
+      [
+        "rap",
+        4012
+      ],
+      [
+        "indie pop",
+        3890
+      ],
+      [
+        "hard rock",
+        3547
+      ],
+      [
+        "ambient",
+        3375
+      ],
+      [
+        "punk",
+        3358
+      ],
+      [
+        "synthpop",
+        2832
+      ],
+      [
+        "post-hardcore",
+        2650
+      ],
+      [
+        "new wave",
+        2608
+      ],
+      [
+        "hardcore",
+        2589
+      ]
+    ],
+    "top_tags": [
+      [
+        "rock",
+        39682
+      ],
+      [
+        "pop",
+        33010
+      ],
+      [
+        "alternative",
+        28555
+      ],
+      [
+        "favorites",
+        21591
+      ],
+      [
+        "indie",
+        21494
+      ],
+      [
+        "alternative rock",
+        19532
+      ],
+      [
+        "love",
+        19063
+      ],
+      [
+        "beautiful",
+        17461
+      ],
+      [
+        "awesome",
+        17086
+      ],
+      [
+        "female vocalists",
+        16926
+      ],
+      [
+        "american",
+        16714
+      ],
+      [
+        "electronic",
+        16252
+      ],
+      [
+        "male vocalists",
+        15174
+      ],
+      [
+        "seen live",
+        14662
+      ],
+      [
+        "00s",
+        13967
+      ],
+      [
+        "indie rock",
+        13712
+      ],
+      [
+        "metal",
+        13153
+      ],
+      [
+        "dance",
+        13073
+      ],
+      [
+        "british",
+        12976
+      ],
+      [
+        "singer songwriter",
+        12470
+      ]
+    ]
+  },
+  "interactions": {
+    "pair_rows": 50016042,
+    "users": 119140,
+    "total_plays": 252984396,
+    "tracks": 56512,
+    "invalid_rows": 0,
+    "coverage": {
+      "genre_row": {
+        "tracks": 56512,
+        "track_fraction": 1.0,
+        "pair_rows": 50016042,
+        "pair_row_fraction": 1.0,
+        "plays": 252984396,
+        "play_fraction": 1.0
+      },
+      "nonzero_genre": {
+        "tracks": 56498,
+        "track_fraction": 0.9997522650056625,
+        "pair_rows": 50012430,
+        "pair_row_fraction": 0.9999277831700477,
+        "plays": 252967849,
+        "play_fraction": 0.9999345928038976
+      },
+      "tag_row": {
+        "tracks": 56155,
+        "track_fraction": 0.9936827576443941,
+        "pair_rows": 49996727,
+        "pair_row_fraction": 0.9996138239007397,
+        "plays": 252867661,
+        "play_fraction": 0.9995385683787391
+      },
+      "nonempty_tags": {
+        "tracks": 45589,
+        "track_fraction": 0.8067136183465459,
+        "pair_rows": 48513146,
+        "pair_row_fraction": 0.9699517206899338,
+        "plays": 246305104,
+        "play_fraction": 0.9735980079972996
+      },
+      "both_nonempty": {
+        "tracks": 45577,
+        "track_fraction": 0.8065012740656852,
+        "pair_rows": 48509798,
+        "pair_row_fraction": 0.9698847821664897,
+        "plays": 246290004,
+        "play_fraction": 0.973538320521555
+      }
+    },
+    "unique_pairs": 50016042,
+    "duplicate_pair_rows": 0,
+    "sparsity": 0.9925713303186806,
+    "genre_feature_tracks_without_interactions": 52744,
+    "users_with_both_features": 119126
+  }
+}

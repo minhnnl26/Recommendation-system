@@ -3,7 +3,11 @@ type HealthResponse = {
 };
 
 async function getBackendStatus(): Promise<"connected" | "disconnected"> {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
+
+  if (!apiBaseUrl) {
+    return "disconnected";
+  }
 
   try {
     const response = await fetch(`${apiBaseUrl}/health`, {
@@ -34,6 +38,7 @@ export default async function Home() {
         A minimal foundation for the product: Next.js on the frontend, FastAPI on the backend,
         and room for Supabase migrations and recommender experiments.
       </p>
+      <p><a className="back-link" href="/research">Mở bản gợi ý Music4All-Onion local →</a></p>
       <section className="status-panel" aria-label="Backend health status">
         <div className="status-copy">
           <span className="status-label">Backend</span>

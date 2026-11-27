@@ -1,7 +1,7 @@
 # Music Recommendation Web — Project Handoff
 
-> Cập nhật gần nhất: 2026-09-21  
-> Trạng thái: đã chốt hướng kiến trúc và tạo Supabase; chưa triển khai toàn bộ schema/MVP.
+> Cập nhật gần nhất: 2026-11-27
+> Trạng thái: Backend Catalog API, Frontend Catalog, Minimal Audio Playback, Music Provider Feasibility Spike và demo gợi ý Music4All-Onion local đã có; authentication, recommendation production, event tracking và ingestion production chưa triển khai.
 
 ## Cách dùng file này khi đổi tài khoản
 
@@ -19,6 +19,69 @@ Sau đó hãy tiếp tục hỗ trợ tôi từ mục "Việc cần làm ngay ti
 3. Không bao giờ ghi password, secret key, token hoặc connection string thật vào file này hay GitHub.
 
 ---
+
+## Current project state
+
+- Đã thêm bộ training Kaggle trong `recommender/training`, notebook `recommender/notebooks/music4all_kaggle.ipynb`, hướng dẫn `docs/KAGGLE_TRAINING.md` và `docs/MUSIC4ALL_DATASET_SETUP.md`. Full config yêu cầu toàn bộ original Music4All: 109.269 catalog ID với metadata, audio 30 giây và lyrics; temporal split Onion, ALS + genre/popularity, optional classifier đa nhãn từ audio features.
+- Chưa nhận/tải original Music4All từ tác giả, chưa chạy full Kaggle và chưa thay model serving `/research`. Các kiểm thử pipeline dùng dữ liệu tổng hợp; không coi đó là metric full-scale. Data/model lưu private ngoài GitHub, có công cụ inventory/sharding/code-only package.
+- Bản nghiên cứu Music4All-Onion local chạy độc lập qua `app.research_demo:app` và frontend `/research`: tra cứu ID/genre/tags, hồ sơ user mẫu, Item-kNN + genre cosine + popularity. Xem `docs/MUSIC4ALL_LOCAL_DEMO.md`.
+- Artifact mặc định có 3.000 track, 1.000 user, 44.037 cặp train và 1.000 holdout; không có tên bài/nghệ sĩ/audio, không nhập vào Supabase. Đây là baseline giai đoạn 1, chưa thay hướng LightFM giai đoạn 2.
+- Backend FastAPI hoạt động.
+- Supabase Catalog API hoạt động.
+- Home / hiển thị trạng thái Backend connected.
+- Frontend Catalog nằm tại /catalog.
+- Search theo title hoạt động.
+- Pagination/Load more hoạt động.
+- Song, album và artists được hiển thị từ backend.
+- Navigation Home ↔ Catalog hoạt động.
+- Minimal Audio Playback đã tích hợp cho các bài đáp ứng playback contract.
+- Authentication, recommendation production, event tracking và ingestion production chưa nằm trong phạm vi đã hoàn thành.
+- Music Provider Feasibility Spike đã thêm adapter iTunes Search API, Jamendo API v3 và rule-based mood query normalization; chưa ghi dữ liệu vào Supabase hoặc tích hợp frontend.
+
+## Catalog API
+
+Các endpoint Catalog API hiện có:
+
+- GET /health
+- GET /api/v1/songs
+- GET /api/v1/songs/{song_id}
+- GET /api/v1/artists
+- GET /api/v1/artists/{artist_id}
+- GET /api/v1/albums/{album_id}
+
+Frontend gọi Backend Catalog API qua NEXT_PUBLIC_API_BASE_URL; không gọi Supabase trực tiếp.
+
+## Minimal Audio Playback
+
+- Player dùng một HTMLAudioElement.
+- Hỗ trợ Play/Pause, seek, duration và current time.
+- Có Previous/Next trong playable queue.
+- Có trạng thái loading và playback error.
+- Không autoplay khi mở trang.
+- Queue chỉ gồm các bài đang hiển thị và playable.
+- Không phát external_url.
+- Không phát trực tiếp audio_object_key.
+- Không thêm hoặc lưu file audio vào repository.
+- Chi tiết kiểm thử local nằm trong docs/LOCAL_PLAYBACK_TEST.md.
+
+Playback contract:
+
+~~~
+status === "ready"
+can_stream === true
+preview_url là URL hợp lệ, không rỗng
+~~~
+
+## Music Provider Feasibility Spike
+
+- Provider-neutral model dùng các field metadata chung và `playback_type` gồm `full`, `preview` hoặc `external_only`.
+- iTunes dùng metadata Search API và chỉ coi `previewUrl` hợp lệ là preview 30 giây; không có preview thì không stream.
+- Jamendo dùng `audio` cho feasibility playback và license metadata; không dùng `audiodownload`.
+- Cả hai adapter không download, cache, lưu audio, upload R2 hoặc ghi database.
+- CLI probe chỉ in summary an toàn, không in raw payload, credential hoặc audio URL đầy đủ.
+- Mood normalization rule-based nhận diện một vocabulary tiếng Việt nhỏ như `nhạc buồn`, `nhạc vui`, `thư giãn`, `tập trung`, `ngủ` và `tập thể dục`; không dùng LLM.
+- Chi tiết spike nằm ở `docs/MUSIC_PROVIDER_EVALUATION.md`.
+- Bước tiếp theo cần quyết định: migration catalog hợp nhất theo provider và controlled importer có review/license gate.
 
 ## 1. Tóm tắt dự án
 
@@ -431,9 +494,9 @@ R2_BUCKET_NAME=
 ### Phase 1 — Web MVP end-to-end
 
 - [ ] Auth và profile.
-- [ ] Catalog API/UI.
-- [ ] Search.
-- [ ] Player và queue.
+- [x] Catalog API/UI.
+- [x] Search.
+- [x] Player và queue cơ bản.
 - [ ] Like và playlist.
 - [ ] Event tracking idempotent.
 - [ ] Recommendation baseline.
@@ -523,6 +586,8 @@ Sau mỗi buổi làm việc, chỉ cần cập nhật bốn phần:
 
 | Ngày | Quyết định | Lý do |
 |---|---|---|
+| 2026-11-27 | Thêm experiment ALS + genre rerank trên full Music4All/Onion cho Kaggle; tách classifier thể loại tùy chọn | User yêu cầu mở rộng toàn bộ catalog và có notebook tái lập; giữ LightFM là hướng so sánh tiếp, chưa thay serving demo |
+| 2026-11-13 | Thêm demo nghiên cứu local trên Music4All-Onion, Item-kNN + genre + historical popularity | Kiểm tra luồng dữ liệu → fit → API → giao diện; giữ ID benchmark nhất quán, không ghép audio/metadata giả hoặc gọi cloud |
 | 2026-09-21 | Không dùng LLM để gợi ý | Đúng yêu cầu đề tài; dễ đánh giá recommender truyền thống |
 | 2026-09-21 | MVP trước, ML nâng cao sau | Giảm rủi ro tích hợp và quá tải phạm vi |
 | 2026-09-21 | Supabase cho Auth/PostgreSQL | Cloud managed, phù hợp MVP |

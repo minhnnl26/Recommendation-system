@@ -1,0 +1,128 @@
+{
+  "parsed_rows": 19150868,
+  "raw_users": 992,
+  "raw_nonempty_track_ids": 961416,
+  "malformed_lines": 0,
+  "missing": {
+    "user_id": 0,
+    "timestamp_raw": 0,
+    "artist_id": 602166,
+    "artist_name": 0,
+    "track_id": 2168588,
+    "track_name": 0
+  },
+  "raw_time_range": [
+    "2005-02-14 00:00:07+00:00",
+    "2013-09-29 18:32:04+00:00"
+  ],
+  "invalid_timestamps": 0,
+  "before_1970": 0,
+  "after_source_cutoff": 153473,
+  "invalid_nonempty_track_ids": 0,
+  "eligible_before_dedup": 16847267,
+  "exact_duplicates_removed": 1,
+  "clean_events": 16847266,
+  "users": 991,
+  "tracks": 956603,
+  "artists_with_mbid": 83680,
+  "unique_user_song_pairs": 3941123,
+  "sparsity": 0.9958426690726099,
+  "retention": 0.8797129195397305,
+  "repeat_event_fraction": 0.7660675031782604,
+  "top_one_percent_track_share": 0.28847861724270274,
+  "singleton_track_count": 261552,
+  "track_ids_with_multiple_names": 184,
+  "clean_time_range": [
+    "2005-02-14 00:00:07+00:00",
+    "2009-05-05 23:59:54+00:00"
+  ],
+  "events_per_user": {
+    "min": 2,
+    "median": 10224.0,
+    "mean": 17000.268415741673,
+    "p90": 41201.0,
+    "p99": 91882.3000000001,
+    "max": 172042
+  },
+  "distinct_songs_per_user": {
+    "min": 2,
+    "median": 2717.0,
+    "mean": 3976.915237134208,
+    "p90": 8743.0,
+    "p99": 21802.1,
+    "max": 59850
+  },
+  "events_per_track": {
+    "min": 1,
+    "median": 4.0,
+    "mean": 17.61155463656292,
+    "p90": 34.0,
+    "p99": 255.0,
+    "max": 3985
+  },
+  "top_tracks": [
+    [
+      "Such Great Heights",
+      "The Postal Service",
+      3985
+    ],
+    [
+      "Love Will Tear Us Apart",
+      "Boy Division",
+      3657
+    ],
+    [
+      "Karma Police",
+      "Radiohead",
+      3517
+    ],
+    [
+      "Soul Meets Body",
+      "Death Cab For Cutie",
+      3464
+    ],
+    [
+      "Supermassive Black Hole",
+      "Muse",
+      3459
+    ],
+    [
+      "Heartbeats",
+      "The Knife",
+      3150
+    ],
+    [
+      "Rebellion (Lies)",
+      "Arcade Fire",
+      3046
+    ],
+    [
+      "Starlight",
+      "Muse",
+      3043
+    ],
+    [
+      "When You Were Young",
+      "The Killers",
+      2997
+    ],
+    [
+      "Gimme More",
+      "Britney Spears",
+      2985
+    ]
+  ],
+  "temporal_preview": {
+    "train_validation_boundary": "2008-10-09 00:16:21+00:00",
+    "validation_test_boundary": "2009-01-26 02:57:39+00:00",
+    "events": {
+      "test": 1684727,
+      "validation": 1684727,
+      "train": 13477812
+    },
+    "cold_test_events": 294334,
+    "cold_test_tracks": 85115,
+    "cold_test_users": 81,
+    "test_events_previously_seen_user_song": 670479
+  }
+}

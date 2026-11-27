@@ -1,0 +1,27 @@
+[project]
+name = "music4all-training"
+version = "0.1.0"
+description = "Reproducible Kaggle training for full Music4All and Music4All-Onion"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "duckdb==1.4.1",
+    "numpy==1.26.4",
+    "scipy==1.13.1",
+    "implicit==0.7.2",
+    "scikit-learn==1.5.2",
+    "threadpoolctl==3.6.0",
+    "pytz==2025.2",
+]
+
+[dependency-groups]
+dev = ["pytest==8.4.2", "ruff==0.16.8"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["data_utils", "prepare", "train", "predict"]

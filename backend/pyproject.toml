@@ -5,6 +5,7 @@ description = "FastAPI backend for the music recommendation app foundation."
 requires-python = ">=3.10"
 dependencies = [
     "fastapi==0.117.1",
+    "httpx==0.28.1",
     "pydantic-settings==2.10.1",
     "supabase==2.18.1",
     "uvicorn[standard]==0.35.0",
@@ -12,7 +13,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "httpx==0.28.1",
     "pytest==8.4.2",
     "pytest-asyncio==1.2.0",
     "ruff>=0.16.8",
@@ -23,4 +23,5 @@ pythonpath = ["."]
 testpaths = ["tests"]
 markers = [
     "integration: requires a running local Supabase instance; never uses cloud",
+    "research_integration: requires a prepared local Music4All artifact; no network",
 ]

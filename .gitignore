@@ -41,5 +41,28 @@ artifacts/
 *.pth
 *.ckpt
 
+# Research media, notebook outputs and credentials (never publish raw datasets)
+*.mp3
+*.wav
+*.flac
+*.m4a
+*.mp4
+*.zip
+*.7z
+*.tar.gz
+*.bz2
+*.npz
+*.npy
+*.parquet
+*.duckdb
+*.sqlite3
+*.partial
+.ipynb_checkpoints/
+kaggle.json
+credentials.json
+token.json
+*.pem
+*.key
+
 supabase/.temp/
 supabase/.branches/

@@ -1,0 +1,28 @@
+.page { width: min(1180px, calc(100% - 32px)); padding-top: 48px; }
+.header { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.header h1 { font-size: clamp(2.2rem, 5vw, 4rem); }
+.header a { color: var(--accent); white-space: nowrap; }
+.intro { max-width: 850px; color: var(--muted); line-height: 1.7; margin: 24px 0; }
+.stats { display: flex; gap: 28px; flex-wrap: wrap; padding: 22px; background: #e8eee7; border-radius: 12px; }
+.stats strong { font-size: 1.5rem; margin-right: 6px; }
+.controls { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 28px 0; }
+.controls label { display: grid; gap: 10px; font-weight: 700; }
+.controls select { font: inherit; padding: 12px; background: white; border: 1px solid var(--border); border-radius: 8px; width: 100%; }
+.sectionTitle { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 38px; }
+.sectionTitle h2 { margin: 0; font-size: 1.7rem; }
+.sectionTitle span, .muted { color: var(--muted); font-size: .9rem; line-height: 1.6; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+.card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 12px; overflow-wrap: anywhere; }
+.card h3 { margin: 0; font-size: 1.05rem; }
+.card p { margin: 0; font-size: .85rem; }
+.card button { margin-top: auto; font-size: .85rem; }
+.card details { font-size: .85rem; line-height: 1.6; }
+.card details p { margin: 8px 0; }
+.id { color: var(--accent); font-size: .7rem !important; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span { background: #eaf2ee; border-radius: 6px; padding: 5px 8px; font-size: .75rem; }
+.history, .context { margin-top: 20px; padding: 18px; background: white; border: 1px solid var(--border); border-radius: 8px; line-height: 1.7; }
+.context button { padding: 6px 10px; margin-left: 10px; }
+.pagination { display: flex; gap: 20px; align-items: center; justify-content: center; margin-top: 24px; }
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .grid, .controls { grid-template-columns: 1fr; } .header { align-items: flex-start; } }

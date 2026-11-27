@@ -250,6 +250,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "fastapi" },
+    { name = "httpx" },
     { name = "pydantic-settings" },
     { name = "supabase" },
     { name = "uvicorn", extra = ["standard"] },
@@ -257,7 +258,6 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "httpx" },
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "ruff" },
@@ -266,6 +266,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "fastapi", specifier = "==0.117.1" },
+    { name = "httpx", specifier = "==0.28.1" },
     { name = "pydantic-settings", specifier = "==2.10.1" },
     { name = "supabase", specifier = "==2.18.1" },
     { name = "uvicorn", extras = ["standard"], specifier = "==0.35.0" },
@@ -273,7 +274,6 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "httpx", specifier = "==0.28.1" },
     { name = "pytest", specifier = "==8.4.2" },
     { name = "pytest-asyncio", specifier = "==1.2.0" },
     { name = "ruff", specifier = ">=0.16.8" },
