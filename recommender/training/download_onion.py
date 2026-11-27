@@ -25,12 +25,13 @@ def md5(path):
     return digest.hexdigest()
 
 
-def download(output, all_files=False):
+def download(output, all_files=False, counts_only=False):
     output.mkdir(parents=True, exist_ok=True)
     with urlopen("https://zenodo.org/api/records/15394646", timeout=60) as response:
         record = json.load(response)
-    selected = [row for row in record["files"] if all_files or row["key"] in CORE]
-    if not all_files and {row["key"] for row in selected} != CORE:
+    required = CORE - {"userid_trackid_timestamp.tsv.bz2"} if counts_only else CORE
+    selected = [row for row in record["files"] if all_files or row["key"] in required]
+    if not all_files and {row["key"] for row in selected} != required:
         raise ValueError("Official core file inventory changed; review release")
     manifest = []
     for entry in selected:
@@ -75,5 +76,12 @@ if __name__ == "__main__":
         action="store_true",
         help="Download the entire Onion release (~19.9 GB compressed)",
     )
+    parser.add_argument(
+        "--counts-only",
+        action="store_true",
+        help="Skip timestamps for the explicit hash-split Onion profile",
+    )
     args = parser.parse_args()
-    download(args.output, args.all)
+    if args.all and args.counts_only:
+        parser.error("--all and --counts-only are mutually exclusive")
+    download(args.output, args.all, args.counts_only)

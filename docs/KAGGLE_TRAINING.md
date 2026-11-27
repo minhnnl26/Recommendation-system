@@ -1,10 +1,24 @@
 # Huấn luyện Music4All trên Kaggle — từ dữ liệu đến model có thể nạp lại
 
+## Chạy ngay: chưa cần audio/lyrics gốc
+
+Notebook hiện mặc định `PROFILE='onion'`, đọc `configs/onion.json`. Chỉ cần **`userid_trackid_count.tsv.bz2` và `id_genres_tf-idf.tsv.bz2`** để chuẩn bị, fit ALS, đánh giá và tạo gợi ý. ID lấy từ toàn bộ file genre; title/artist/album và audio path là null, nhãn giao diện `Track <ID>`. Không kiểm tra hoặc cần `original_root` trong chế độ này.
+
+Mặc định Onion dùng **hash leave-two-out**, không phải chia theo thời gian. `max_users=null` giữ toàn bộ user có train; inference/eval vẫn dùng cùng pipeline. Nếu có timestamp, sửa rõ `config['split']='temporal'`, tạo run mới; không tự đổi kiểu chia khi thiếu file. Profile `full` vẫn giữ gate original + temporal cho giai đoạn sau.
+
+```bash
+# Chỉ tải core không timestamp cho thí nghiệm chạy trước
+uv run --project recommender/training python recommender/training/download_onion.py \
+  --output data/raw/music4all-onion --counts-only
+```
+
+Tạo code ZIP phiên bản mới, attach code + hai file bắt buộc, import notebook rồi sửa `ONION`. Không cần attach original hoặc gọi `validate_original.py` khi `PROFILE='onion'`. Việc còn lại của từng bạn và danh sách file cần commit nằm trong [TEAM_NEXT_STEPS.md](TEAM_NEXT_STEPS.md).
+
 ## Phạm vi và trạng thái
 
 Notebook: [`music4all_kaggle.ipynb`](../recommender/notebooks/music4all_kaggle.ipynb).
 
-Pipeline mới không dùng giới hạn 3.000 track hoặc 1.000 user của demo local. Cấu hình `full.json` yêu cầu inventory đầy đủ Music4All gốc (109.269 bài, audio 30 giây + lyrics + metadata), giữ toàn bộ catalog và dùng tất cả user Onion có lịch sử train. Không train ALS trên audio; ALS dùng tương tác, còn genre phục vụ content ranking. Bài không có tương tác vẫn ở catalog và có thể được chấm điểm nội dung.
+Pipeline không dùng giới hạn 3.000 track hoặc 1.000 user của demo local. Profile `onion` lấy toàn bộ catalog genre; profile `full` yêu cầu inventory đầy đủ Music4All gốc (109.269 bài, audio 30 giây + lyrics + metadata). Cả hai dùng tất cả user Onion có lịch sử train nếu `max_users=null`. Không train ALS trên audio; ALS dùng tương tác, còn genre phục vụ content ranking. Bài không có tương tác vẫn ở catalog và có thể được chấm điểm nội dung.
 
 Các bước này đã có source và test local với dữ liệu tổng hợp. **Chưa chạy toàn bộ Music4All trên Kaggle**, chưa có metric full-scale hoặc thời gian chạy được đo trên Kaggle. Chưa có bản gốc trong workspace; cần nhận bộ gốc từ tác giả theo [hướng dẫn dữ liệu](MUSIC4ALL_DATASET_SETUP.md). Không tuyên bố đã tải hoặc huấn luyện toàn bộ khi chỉ có code.
 
@@ -18,7 +32,7 @@ cd Recommendation-system
 uv sync --project recommender/training --dev --locked
 ```
 
-Tải đầy đủ **Music4All gốc**, xác minh inventory, rồi tải core Onion có timestamp. Lệnh cụ thể ở [MUSIC4ALL_DATASET_SETUP.md](MUSIC4ALL_DATASET_SETUP.md). Không dùng file `audit.duckdb` 3 GB của EDA làm input Kaggle; pipeline đọc trực tiếp các file gốc được attach.
+Để chạy trước, chỉ tải Onion counts + genre. Để chạy profile full sau này, tải đầy đủ **Music4All gốc**, xác minh inventory và tải timestamp; xem [MUSIC4ALL_DATASET_SETUP.md](MUSIC4ALL_DATASET_SETUP.md). Không dùng file `audit.duckdb` của EDA làm input Kaggle; pipeline đọc trực tiếp các file được attach.
 
 ## 2. Những gì phải upload/attach
 
@@ -26,8 +40,9 @@ Tải đầy đủ **Music4All gốc**, xác minh inventory, rồi tải core On
 |---|---|---|
 | Notebook `.ipynb` | Kaggle → New Notebook → Import Notebook | Có |
 | Code training | Private Dataset từ `training-code.zip` | Có |
-| Toàn bộ Music4All gốc | Private Dataset, đủ cây metadata/audio/lyrics | Có cho full gate |
-| Core Music4All-Onion | Private Dataset chứa file `.tsv.bz2` còn nén | Có |
+| Toàn bộ Music4All gốc | Private Dataset, đủ cây metadata/audio/lyrics | Chỉ profile full; chưa cần cho Onion |
+| Onion counts + genre | Private Dataset chứa file `.tsv.bz2` còn nén | Có cho profile Onion/hash |
+| Onion timestamp + genre | Private Dataset | Có nếu chọn temporal; không cần cho hash |
 | `id_musicnn.tsv.bz2` hoặc numeric audio features | Dataset input riêng hoặc cùng Onion | Có nếu chạy classifier |
 | `.env`, key, token, raw model của demo cũ | **Không upload** | Không |
 
@@ -66,7 +81,7 @@ Tên folder thực tế do Kaggle tạo có thể khác; sửa `ORIGINAL` và `O
 ## 3. Thiết lập notebook
 
 1. Import `recommender/notebooks/music4all_kaggle.ipynb`.
-2. Add Input: code, original đầy đủ, Onion; để private theo điều kiện sử dụng dữ liệu.
+2. Add Input: code và Onion counts + genre; chỉ attach original nếu chạy profile full. Giữ private theo điều kiện sử dụng dữ liệu.
 3. Chọn runtime Python 3.10–3.12. Cell đầu sẽ chặn version chưa hỗ trợ.
 4. Bật Internet để cài dependencies từ `requirements-kaggle.txt`. Nếu phiên không có Internet, chuẩn bị wheelhouse đúng Python/Linux và dùng `pip install --no-index --find-links <wheelhouse> -r ...`; không tự bỏ dependency.
 5. **CPU là mặc định đã kiểm thử.** Có thể bật GPU và `use_gpu=True` để thử ALS GPU nếu wheel/CUDA tương thích; nếu không, sửa rõ về CPU, không coi có GPU là tự dùng GPU.
@@ -81,11 +96,13 @@ Tại thời điểm kiểm tra tài liệu Kaggle, output tự lưu trong `/kag
 
 Các version runtime được pin trong requirements và uv.lock. Không import Supabase, không đọc app `.env`, không tạo table FastAPI hoặc gọi cloud của dự án.
 
-Gate original kiểm tra đầy đủ inventory. Chưa decode mọi audio; có file không đồng nghĩa đã xác minh quyền phát. Nếu cấu trúc nguồn khác, sửa config/adapter theo header thực tế trước khi train.
+Profile Onion bỏ qua gate original một cách tường minh và ghi `full_original_verified=false`. Profile full kiểm tra đầy đủ inventory. Chưa decode mọi audio; có file không đồng nghĩa đã xác minh quyền phát. Nếu cấu trúc nguồn khác, sửa config/adapter theo header thực tế trước khi train.
 
-### B. Chuẩn bị sparse matrix và temporal split
+### B. Chuẩn bị sparse matrix và các profile chia dữ liệu
 
-1. Dùng toàn bộ ID trong `id_information.csv` làm item universe, nối genre theo ID chính xác.
+**Mặc định Onion/hash:** item universe là toàn bộ ID trong genre; không đọc `id_information.csv`. File count được tách hai cặp/user đủ lịch sử theo hash có seed cho validation/test, các cặp còn lại train. Không có tổng hợp theo thời gian. Phần bên dưới mô tả **profile full/temporal hoặc Onion chọn temporal**:
+
+1. Dùng toàn bộ ID trong `id_information.csv` cho full, hoặc ID file genre cho Onion; nối theo ID chính xác.
 2. Chuẩn hóa genre L2; vector rỗng vẫn giữ bài, chỉ không có tín hiệu nội dung.
 3. Stream giải nén timestamp vào scratch; DuckDB giới hạn memory 4 GB, spill trên scratch. Không load 253 triệu dòng thành DataFrame Python.
 4. Chọn hai cutoff toàn cục theo phân vị 80%/90% thời gian của các event trong catalog.
@@ -163,7 +180,7 @@ uv run --project recommender/training python recommender/training/predict.py \
 
 Có thể thêm `--recent '<track ID>'` tối đa 5 lần, mới nhất trước. Với session input, inference fold-in vector user bằng confidence cùng thang đo train; genre được chọn bổ sung tín hiệu nội dung. Với user hoàn toàn mới không có tín hiệu, fallback popularity.
 
-Response CLI có tên bài/nghệ sĩ/album, điểm thành phần và đường dẫn tương đối `audios/<id>.mp3`. Đường dẫn chỉ xác định file gốc, **không phải URL public hoặc xác nhận quyền stream**. Nếu audio được đặt trong thư mục con, cần resolver theo ID khi tích hợp serving.
+Response CLI có điểm thành phần. Profile original có tên bài/nghệ sĩ/album và đường dẫn tương đối `audios/<id>.mp3`; profile Onion trả các trường metadata/audio là null và `display_name='Track <ID>'`. Đường dẫn trong original **không phải URL public hoặc xác nhận quyền stream**. Nếu audio ở thư mục con, cần resolver theo ID khi tích hợp serving.
 
 **Chưa tự thay model của `/research` hoặc API production.** Entry point FastAPI hiện vẫn dùng SQLite Item-kNN của demo. Việc nạp ALS vào API, giới hạn truy cập audio và logging tương tác là bước tích hợp tiếp theo. Đây là bộ training + CLI inference, không phải deployment.
 

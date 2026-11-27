@@ -139,7 +139,11 @@ class Recommender:
                     name: float(values[i]) for name, values in components.items()
                 },
                 "weights": active,
-                "audio_relative_path": f"audios/{self.items[i]}.mp3",
+                "audio_relative_path": (
+                    f"audios/{self.items[i]}.mp3"
+                    if self.config.get("catalog_source", "original") == "original"
+                    else None
+                ),
                 "playback_permission_verified": False,
             }
             for i in indices

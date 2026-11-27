@@ -4,19 +4,21 @@ A music recommendation class project with a Next.js frontend, async FastAPI cata
 
 ## Full Music4All training on Kaggle
 
-The large-dataset track requires the **complete original Music4All catalog**: 109,269 tracks with metadata, 30-second MP3 excerpts and lyrics, plus Music4All-Onion interactions/features. Full original audio is obtained from the authors; it is not included in this repository. Original Music4All contains excerpts, not full-length recordings.
+**Train now without original audio:** the notebook defaults to `configs/onion.json`, using Onion genre IDs and interaction counts with an explicit non-temporal hash split. No MP3, lyrics or original metadata is required. Add timestamps and select temporal splitting for a separate time-based experiment. The later full-data track (`configs/full.json`) still verifies the complete original Music4All catalog, metadata, 30-second excerpts and lyrics.
 
 - [Download/access, full-data requirements, inventory gate, private storage and Drive](docs/MUSIC4ALL_DATASET_SETUP.md)
 - [Kaggle setup: what to upload, run each stage, save outputs and run inference](docs/KAGGLE_TRAINING.md)
 - [Importable Kaggle notebook](recommender/notebooks/music4all_kaggle.ipynb)
 - [Full-catalog configuration](recommender/training/configs/full.json)
+- [Train-now Onion configuration](recommender/training/configs/onion.json)
+- [Team handoff: remaining frontend/backend/training work and what to commit](docs/TEAM_NEXT_STEPS.md)
 
 ```bash
 uv sync --project recommender/training --dev --locked
 python scripts/package_kaggle_code.py
 # Upload artifacts/kaggle/training-code.zip as a private Kaggle input Dataset.
-# Import the notebook, attach the complete original dataset and Onion timestamps,
-# edit input paths, then run validation → preparation → ALS fit → evaluation.
+# Import the notebook, attach Onion counts + genre and this code Dataset,
+# leave PROFILE='onion', edit input paths, then prepare → fit → evaluate.
 ```
 
 Training exports ALS + genre/popularity hybrid artifacts and an offline prediction CLI. An optional separate multi-label genre classifier uses audio features. Full Kaggle execution still requires your original dataset access and a Kaggle session; it has not been run here. The new ALS artifacts do not automatically replace the SQLite Item-kNN model used by `/research`.

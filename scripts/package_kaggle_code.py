@@ -9,12 +9,15 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def package(output):
     code = ROOT / "recommender/training"
-    paths = sorted(code.glob("*.py")) + [
-        code / "requirements-kaggle.txt",
-        code / "pyproject.toml",
-        code / "uv.lock",
-        code / "configs/full.json",
-    ]
+    paths = (
+        sorted(code.glob("*.py"))
+        + [
+            code / "requirements-kaggle.txt",
+            code / "pyproject.toml",
+            code / "uv.lock",
+        ]
+        + sorted((code / "configs").glob("*.json"))
+    )
     if any(not path.is_file() or path.is_symlink() for path in paths):
         raise ValueError("Missing training source/lock or symlink detected")
     output.parent.mkdir(parents=True, exist_ok=True)

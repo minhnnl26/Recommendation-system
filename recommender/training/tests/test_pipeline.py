@@ -151,6 +151,40 @@ def test_full_original_gate_rejects_missing_audio(tmp_path):
     assert not report["complete"]
 
 
+@pytest.mark.parametrize("split", ["hash", "temporal"])
+def test_onion_only_trains_without_any_original_files(tmp_path, split):
+    import shutil
+
+    original, onion, ids = make_data(tmp_path)
+    config = configuration(tmp_path, original, onion, split)
+    shutil.rmtree(original)
+    config.update(
+        catalog_source="onion", original_root=None, require_full_original=False
+    )
+    prepare(config)
+    train(config)
+    run = Path(config["output_root"])
+    manifest = json.loads((run / "prepared/manifest.json").read_text())
+    assert manifest["catalog_source"] == "onion"
+    assert manifest["catalog_tracks"] == len(ids)
+    assert manifest["full_original_verified"] is False
+    assert "id_information.csv" not in manifest["source_sha256"]
+    rows = Recommender(run).recommend(user_id="0", k=5)
+    assert len(rows) == 5
+    assert all(
+        row["title"] is None and row["audio_relative_path"] is None for row in rows
+    )
+    assert all(row["display_name"] == f"Track {row['track_id']}" for row in rows)
+
+
+def test_onion_profile_cannot_claim_original_is_required(tmp_path):
+    original, onion, _ = make_data(tmp_path)
+    config = configuration(tmp_path, original, onion, "hash")
+    config["catalog_source"] = "onion"
+    with pytest.raises(ValueError, match="cannot require"):
+        prepare(config)
+
+
 def test_missing_timestamp_never_falls_back_to_hash(tmp_path):
     original, onion, _ = make_data(tmp_path)
     (onion / "userid_trackid_timestamp.tsv.bz2").unlink()

@@ -15,6 +15,7 @@ from data_utils import (
     inventory,
     load_features,
     normalize_rows,
+    read_onion_catalog,
     sha256,
     write_json,
 )
@@ -26,6 +27,28 @@ def decompress(source, target):
 
 
 def prepare(config):
+    onion = Path(config["onion_root"])
+    feature_path = onion / "id_genres_tf-idf.tsv.bz2"
+    catalog_source = config.get("catalog_source", "original")
+    if catalog_source == "original":
+        catalog, report = inventory(
+            config["original_root"],
+            config.get("expected_tracks", 109269),
+            full=config.get("require_full_original", True),
+        )
+    elif catalog_source == "onion":
+        if config.get("require_full_original", False):
+            raise ValueError(
+                "Onion-only training cannot require the original audio inventory"
+            )
+        catalog = read_onion_catalog(feature_path)
+        report = {
+            "complete": False,
+            "checked": False,
+            "reason": "Onion-only training; original metadata/audio/lyrics not required or inspected",
+        }
+    else:
+        raise ValueError("catalog_source must be original or onion")
     output = Path(config["output_root"])
     prepared = output / "prepared"
     if prepared.exists():
@@ -37,17 +60,10 @@ def prepare(config):
     import tempfile
 
     temporary = Path(tempfile.mkdtemp(prefix="prepare-", dir=scratch))
-    catalog, report = inventory(
-        config["original_root"],
-        config.get("expected_tracks", 109269),
-        full=config.get("require_full_original", True),
-    )
     item_ids = sorted(catalog)
     write_json(prepared / "catalog.json", catalog)
     write_json(prepared / "item_ids.json", item_ids)
     write_json(prepared / "original_inventory.json", report)
-    onion = Path(config["onion_root"])
-    feature_path = onion / "id_genres_tf-idf.tsv.bz2"
     genre, names = load_features(feature_path, item_ids)
     if genre.data.size and (genre.data < 0).any():
         raise ValueError("Genre weights must be nonnegative")
@@ -211,14 +227,21 @@ def prepare(config):
             "users_without_train_or_limited": all_users - len(user_ids),
             "pairs": nnz,
             "split": split_detail,
-            "catalog_selection": "All original catalog IDs; no popularity-based item selection",
+            "catalog_source": catalog_source,
+            "catalog_selection": f"All {catalog_source} catalog IDs; no popularity-based item selection",
             "evaluation_target": "Unseen user-item discovery; validation excludes train, test excludes train + validation",
             "genre_coverage": int((genre.getnnz(axis=1) > 0).sum()),
             "source_sha256": {
                 source.name: sha256(source),
                 feature_path.name: sha256(feature_path),
-                "id_information.csv": sha256(
-                    Path(config["original_root"]) / "id_information.csv"
+                **(
+                    {
+                        "id_information.csv": sha256(
+                            Path(config["original_root"]) / "id_information.csv"
+                        )
+                    }
+                    if catalog_source == "original"
+                    else {}
                 ),
             },
             "full_original_verified": report["complete"],

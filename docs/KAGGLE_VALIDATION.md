@@ -1,5 +1,14 @@
 # Kiểm tra bộ training Kaggle — 2026-11-27
 
+## Cập nhật: Onion-only để huấn luyện trước
+
+- Thêm profile `configs/onion.json`; notebook chọn Onion/count/hash mặc định, không cần original metadata/audio/lyrics.
+- **10 training tests passed**, gồm hai test mới thực sự xóa toàn bộ thư mục original trước prepare/fit/reload/inference cho cả hash và temporal. Test còn lại chặn cấu hình Onion tự nhận cần full original.
+- Kiểm tra notebook JSON/cú pháp từng code cell, outputs rỗng; Ruff check/format, compileall và `git diff --check` passed.
+- Output Onion có title/artist/album và audio path null, display name theo ID; manifest ghi rõ original chưa được kiểm tra.
+- Gói code mới gồm cả config Onion và full. Hướng dẫn chia sẻ input/artifact và việc cần commit nằm trong `TEAM_NEXT_STEPS.md`.
+- Chưa chạy run thật trên Kaggle trong thay đổi này; 10 test là dữ liệu tổng hợp, không phải metric nghiên cứu. Backend/frontend không thay code ở cập nhật này; kết quả gate ứng dụng dưới đây thuộc lần kiểm tra trước.
+
 ## Đã kiểm tra
 
 | Lệnh/kiểm tra | Kết quả |

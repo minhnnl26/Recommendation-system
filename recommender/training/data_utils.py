@@ -69,6 +69,35 @@ def read_catalog(root):
     return catalog
 
 
+def read_onion_catalog(feature_path):
+    """Use every genre-file ID without inventing titles or playable audio."""
+    catalog = {}
+    with bz2.open(feature_path, "rt", encoding="utf-8") as stream:
+        reader = csv.reader(stream, delimiter="\t", quoting=csv.QUOTE_NONE)
+        header = next(reader)
+        if header[0] != "id" or len(header) < 2:
+            raise ValueError("Expected Onion genre header: id + genre columns")
+        for row in reader:
+            item = row[0]
+            if (
+                not item
+                or item != item.strip()
+                or item in catalog
+                or len(row) != len(header)
+            ):
+                raise ValueError("Empty, duplicate or malformed Onion track ID/row")
+            catalog[item] = {
+                "title": None,
+                "artist": None,
+                "album": None,
+                "display_name": f"Track {item}",
+                "metadata_available": False,
+            }
+    if not catalog:
+        raise ValueError("Empty Onion catalog")
+    return catalog
+
+
 def inventory(root, expected=109269, full=True):
     root = Path(root)
     catalog = read_catalog(root)

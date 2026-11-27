@@ -1,4 +1,5 @@
 {
+  "catalog_source": "original",
   "original_root": "/kaggle/input/music4all-original/music4all",
   "onion_root": "/kaggle/input/music4all-onion",
   "output_root": "/kaggle/working/music4all-run",

@@ -1,0 +1,22 @@
+{
+  "catalog_source": "onion",
+  "original_root": null,
+  "onion_root": "/kaggle/input/music4all-onion",
+  "output_root": "/kaggle/working/music4all-onion-run",
+  "scratch_root": "/tmp/music4all-training",
+  "require_full_original": false,
+  "split": "hash",
+  "train_quantile": 0.8,
+  "validation_quantile": 0.9,
+  "max_users": null,
+  "seed": 42,
+  "factors": 64,
+  "iterations": 20,
+  "regularization": 0.05,
+  "alpha": 20.0,
+  "threads": 4,
+  "use_gpu": false,
+  "eval_users": 1000,
+  "k": 10,
+  "hybrid_weights": {"als": 0.5, "content": 0.4, "popularity": 0.1}
+}

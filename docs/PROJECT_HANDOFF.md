@@ -22,6 +22,7 @@ Sau đó hãy tiếp tục hỗ trợ tôi từ mục "Việc cần làm ngay ti
 
 ## Current project state
 
+- Notebook hiện mặc định profile `onion.json`: chỉ cần count + genre, catalog từ ID genre, hash leave-two-out; không đợi original audio/lyrics và không bịa tên/link nhạc. Có thể chọn temporal khi có timestamp. Profile `full.json` và full inventory vẫn dành cho giai đoạn sau. Công việc còn lại, bàn giao input/artifact và quy tắc commit: `docs/TEAM_NEXT_STEPS.md`.
 - Đã thêm bộ training Kaggle trong `recommender/training`, notebook `recommender/notebooks/music4all_kaggle.ipynb`, hướng dẫn `docs/KAGGLE_TRAINING.md` và `docs/MUSIC4ALL_DATASET_SETUP.md`. Full config yêu cầu toàn bộ original Music4All: 109.269 catalog ID với metadata, audio 30 giây và lyrics; temporal split Onion, ALS + genre/popularity, optional classifier đa nhãn từ audio features.
 - Chưa nhận/tải original Music4All từ tác giả, chưa chạy full Kaggle và chưa thay model serving `/research`. Các kiểm thử pipeline dùng dữ liệu tổng hợp; không coi đó là metric full-scale. Data/model lưu private ngoài GitHub, có công cụ inventory/sharding/code-only package.
 - Bản nghiên cứu Music4All-Onion local chạy độc lập qua `app.research_demo:app` và frontend `/research`: tra cứu ID/genre/tags, hồ sơ user mẫu, Item-kNN + genre cosine + popularity. Xem `docs/MUSIC4ALL_LOCAL_DEMO.md`.
@@ -542,7 +543,14 @@ R2_BUCKET_NAME=
 
 ## 10. Việc cần làm ngay tiếp theo
 
-Không bắt đầu bằng training. Thứ tự đề xuất:
+Ưu tiên hiện tại (2026-11-27):
+
+1. Bạn training chạy notebook profile Onion, bàn giao artifact và metric có ghi đúng split; không cần chờ original audio.
+2. Backend/frontend chốt contract rồi tích hợp artifact ALS vào luồng gợi ý; hiện CLI ALS chưa thay model serving Item-kNN.
+3. Nhận original metadata/audio 30 giây và hoàn thiện playback theo quyền sử dụng; bổ sung temporal evaluation và event/session sau.
+4. Chi tiết deliverable, test và những gì phải commit nằm trong `docs/TEAM_NEXT_STEPS.md`.
+
+Thứ tự nền móng trước đây (lưu làm lịch sử; nhiều bước đã hoàn thành):
 
 1. Tạo GitHub repository và commit bộ khung an toàn, gồm `.gitignore`, `.env.example` và file bàn giao này.
 2. Khởi tạo `frontend`, `backend`, `supabase/migrations`.
@@ -586,6 +594,7 @@ Sau mỗi buổi làm việc, chỉ cần cập nhật bốn phần:
 
 | Ngày | Quyết định | Lý do |
 |---|---|---|
+| 2026-11-27 | Cho phép train Onion-only, mặc định count/hash trước khi nhận original | Ưu tiên có model/metric; audio 30 giây và full inventory là mốc bổ sung, không phải dependency của ALS |
 | 2026-11-27 | Thêm experiment ALS + genre rerank trên full Music4All/Onion cho Kaggle; tách classifier thể loại tùy chọn | User yêu cầu mở rộng toàn bộ catalog và có notebook tái lập; giữ LightFM là hướng so sánh tiếp, chưa thay serving demo |
 | 2026-11-13 | Thêm demo nghiên cứu local trên Music4All-Onion, Item-kNN + genre + historical popularity | Kiểm tra luồng dữ liệu → fit → API → giao diện; giữ ID benchmark nhất quán, không ghép audio/metadata giả hoặc gọi cloud |
 | 2026-09-21 | Không dùng LLM để gợi ý | Đúng yêu cầu đề tài; dễ đánh giá recommender truyền thống |

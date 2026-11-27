@@ -2,6 +2,8 @@
 
 ## Yêu cầu của dự án lớn
 
+**Cập nhật ưu tiên:** huấn luyện recommender có thể bắt đầu bằng Onion counts + genre, không chờ Music4All gốc. Dùng profile `onion.json` và notebook mặc định theo [KAGGLE_TRAINING.md](KAGGLE_TRAINING.md). Yêu cầu đủ audio/lyrics dưới đây áp dụng cho mốc hoàn thiện dữ liệu và profile `full.json`, không chặn run recommender Onion.
+
 Bản nghiên cứu lớn yêu cầu **toàn bộ catalog Music4All gốc**, gồm metadata, audio và lyrics của **109.269 bài**, cộng dữ liệu tương tác và đặc trưng từ Music4All-Onion. Không thay bộ gốc bằng tập demo 3.000 bài. Toàn bộ Music4All gốc vẫn là **đoạn nhạc 30 giây**, không phải toàn bộ thời lượng bài hát.
 
 Không đồng nhất “có toàn bộ dataset” với “mọi mô hình phải đọc mọi file”. ALS học từ tương tác; audio phục vụ nghe mẫu/đặc trưng và bộ phân loại. Bản đầy đủ giữ mọi ID trong catalog, kể cả bài không có tương tác train. ALS không học được vector sở thích đáng tin cậy cho bài chưa có tương tác; nhánh nội dung xử lý trường hợp này.
