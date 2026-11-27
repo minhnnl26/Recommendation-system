@@ -13,7 +13,7 @@ Các bước này đã có source và test local với dữ liệu tổng hợp.
 Yêu cầu: Git, Python **3.10–3.12**, uv; Node/npm chỉ cần khi chạy frontend. Hệ training có uv project/lock riêng, không làm thay đổi dependencies backend.
 
 ```bash
-git clone https://github.com/HUST-8xbet/Recommendation-system.git
+git clone https://github.com/minhnnl26/Recommendation-system.git
 cd Recommendation-system
 uv sync --project recommender/training --dev --locked
 ```
