@@ -4,6 +4,8 @@ A music recommendation class project with a Next.js frontend, async FastAPI cata
 
 ## Full Music4All training on Kaggle
 
+**Need a first result quickly?** Import the [self-contained Kaggle V1 notebook](recommender/notebooks/music4all_kaggle_v1_quick.ipynb), attach only counts + genre, then Run All. No code ZIP or original audio is required. [Step-by-step V1 instructions](docs/KAGGLE_V1_QUICKSTART.md). V1 is explicitly a bounded, non-temporal sample experiment.
+
 **Train now without original audio:** the notebook defaults to `configs/onion.json`, using Onion genre IDs and interaction counts with an explicit non-temporal hash split. No MP3, lyrics or original metadata is required. Add timestamps and select temporal splitting for a separate time-based experiment. The later full-data track (`configs/full.json`) still verifies the complete original Music4All catalog, metadata, 30-second excerpts and lyrics.
 
 - [Download/access, full-data requirements, inventory gate, private storage and Drive](docs/MUSIC4ALL_DATASET_SETUP.md)

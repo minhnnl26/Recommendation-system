@@ -101,9 +101,16 @@ def prepare(config):
         db.execute(
             "CREATE TABLE catalog (track_id VARCHAR PRIMARY KEY, item_index INTEGER)"
         )
-        db.executemany(
-            "INSERT INTO catalog VALUES (?, ?)",
-            [(item, i) for i, item in enumerate(item_ids)],
+        # Bulk-load ID mapping instead of issuing 109k individual Python inserts.
+        catalog_rows = temporary / "catalog.tsv"
+        with catalog_rows.open("w", encoding="utf-8", newline="") as stream:
+            writer = csv.writer(stream, delimiter="\t")
+            writer.writerow(["track_id", "item_index"])
+            writer.writerows((item, i) for i, item in enumerate(item_ids))
+        db.execute(
+            "INSERT INTO catalog SELECT track_id, item_index FROM read_csv(?, "
+            "delim='\t', header=true, columns={'track_id':'VARCHAR','item_index':'INTEGER'})",
+            [str(catalog_rows)],
         )
         db.execute(
             "CREATE VIEW source AS SELECT user_id, track_id, "

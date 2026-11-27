@@ -13,6 +13,7 @@ from data_utils import ORIGINAL_TABLES, inventory, load_features, normalize_rows
 from package_original import package
 from predict import Recommender
 from prepare import prepare
+from quick_v1 import run_v1, sample_counts
 from train import train
 from train_genre_classifier import train_classifier
 
@@ -239,4 +240,37 @@ def test_separate_multilabel_classifier(tmp_path):
     with pytest.raises(ValueError, match="not genre"):
         train_classifier(
             prepared, onion / "id_genres_tf-idf.tsv.bz2", tmp_path / "leaky"
+        )
+
+
+def test_quick_v1_limits_and_actual_training(tmp_path):
+    original, onion, _ = make_data(tmp_path)
+    settings = configuration(tmp_path, original, onion, "hash")
+    settings.update(
+        catalog_source="onion",
+        original_root=None,
+        require_full_original=False,
+        max_source_rows=100,
+        sample_users=4,
+        max_pairs_per_user=10,
+    )
+    output = tmp_path / "v1"
+    results = run_v1(onion, output, tmp_path / "v1-scratch", settings)
+    sample = json.loads((output / "v1_sampling.json").read_text())
+    assert sample["source_rows_scanned"] == 100
+    assert sample["sample_users"] == 4
+    assert sample["sample_pairs"] == 40
+    assert results["evaluation"]["test"]["evaluated_users"] == 4
+    assert (output / "metrics_summary.csv").is_file()
+    assert (
+        "metrics_summary.csv"
+        in json.loads((output / "artifact_manifest.json").read_text())["files"]
+    )
+
+
+def test_quick_v1_does_not_invent_evaluation_users(tmp_path):
+    _, onion, _ = make_data(tmp_path)
+    with pytest.raises(ValueError, match="No user with >=5"):
+        sample_counts(
+            onion / "userid_trackid_count.tsv.bz2", tmp_path / "sample.bz2", 2, 1, 2
         )

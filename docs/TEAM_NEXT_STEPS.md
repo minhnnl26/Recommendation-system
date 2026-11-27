@@ -5,6 +5,8 @@
 
 ## 1. Quyết định hiện tại
 
+**Nếu cần kết quả sớm:** bạn training dùng [notebook V1 tự chứa code](../recommender/notebooks/music4all_kaggle_v1_quick.ipynb) và [hướng dẫn nhanh](KAGGLE_V1_QUICKSTART.md). Chỉ attach count + genre, không cần code ZIP. V1 giới hạn prefix/user/pairs để fit/eval nhẹ; phải ghi rõ sample khi báo cáo. Các hướng dẫn profile đầy đủ bên dưới dành cho bước tiếp theo.
+
 Ưu tiên có kết quả recommender bằng **Music4All-Onion**, chưa chờ xin Music4All gốc. ALS học từ user–track–count; nhánh content dùng genre. MP3, lời bài hát và tên nghệ sĩ không phải điều kiện để fit và đánh giá recommender.
 
 Notebook mặc định chọn `configs/onion.json`: toàn bộ catalog ID trong genre, toàn bộ user có train, chia theo hash. Đây là thí nghiệm không thời gian; không gọi kết quả là temporal hoặc xu hướng hiện tại. Khi có timestamp, chạy một run khác với `split="temporal"`. Khi nhận Music4All gốc, dùng `configs/full.json` để kiểm tra đủ original metadata/audio/lyrics và mở rộng ứng dụng nghe nhạc.

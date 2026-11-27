@@ -22,6 +22,7 @@ Sau đó hãy tiếp tục hỗ trợ tôi từ mục "Việc cần làm ngay ti
 
 ## Current project state
 
+- Đã thêm notebook Kaggle V1 tự chứa code để có baseline sớm: `music4all_kaggle_v1_quick.ipynb`, chỉ attach count + genre, giới hạn prefix 500.000 dòng/1.000 user/100 cặp mỗi user, ALS 32 factors × 8 vòng, eval tối đa 100 user/split. Đây là sample không thời gian, không phải full training. Xem `docs/KAGGLE_V1_QUICKSTART.md`.
 - Notebook hiện mặc định profile `onion.json`: chỉ cần count + genre, catalog từ ID genre, hash leave-two-out; không đợi original audio/lyrics và không bịa tên/link nhạc. Có thể chọn temporal khi có timestamp. Profile `full.json` và full inventory vẫn dành cho giai đoạn sau. Công việc còn lại, bàn giao input/artifact và quy tắc commit: `docs/TEAM_NEXT_STEPS.md`.
 - Đã thêm bộ training Kaggle trong `recommender/training`, notebook `recommender/notebooks/music4all_kaggle.ipynb`, hướng dẫn `docs/KAGGLE_TRAINING.md` và `docs/MUSIC4ALL_DATASET_SETUP.md`. Full config yêu cầu toàn bộ original Music4All: 109.269 catalog ID với metadata, audio 30 giây và lyrics; temporal split Onion, ALS + genre/popularity, optional classifier đa nhãn từ audio features.
 - Chưa nhận/tải original Music4All từ tác giả, chưa chạy full Kaggle và chưa thay model serving `/research`. Các kiểm thử pipeline dùng dữ liệu tổng hợp; không coi đó là metric full-scale. Data/model lưu private ngoài GitHub, có công cụ inventory/sharding/code-only package.

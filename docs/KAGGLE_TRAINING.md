@@ -1,5 +1,7 @@
 # Huấn luyện Music4All trên Kaggle — từ dữ liệu đến model có thể nạp lại
 
+Cần kết quả đầu tiên sớm: dùng [Kaggle V1 Quickstart](KAGGLE_V1_QUICKSTART.md) và notebook tự chứa code, chỉ attach count + genre. Các bước bên dưới là workflow code Dataset và cấu hình đầy đủ, không bắt buộc để chạy V1.
+
 ## Chạy ngay: chưa cần audio/lyrics gốc
 
 Notebook hiện mặc định `PROFILE='onion'`, đọc `configs/onion.json`. Chỉ cần **`userid_trackid_count.tsv.bz2` và `id_genres_tf-idf.tsv.bz2`** để chuẩn bị, fit ALS, đánh giá và tạo gợi ý. ID lấy từ toàn bộ file genre; title/artist/album và audio path là null, nhãn giao diện `Track <ID>`. Không kiểm tra hoặc cần `original_root` trong chế độ này.

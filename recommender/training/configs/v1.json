@@ -1,0 +1,20 @@
+{
+  "catalog_source": "onion",
+  "original_root": null,
+  "require_full_original": false,
+  "split": "hash",
+  "max_source_rows": 500000,
+  "sample_users": 1000,
+  "max_pairs_per_user": 100,
+  "max_users": null,
+  "seed": 42,
+  "factors": 32,
+  "iterations": 8,
+  "regularization": 0.05,
+  "alpha": 20.0,
+  "threads": 4,
+  "use_gpu": false,
+  "eval_users": 100,
+  "k": 10,
+  "hybrid_weights": {"als": 0.5, "content": 0.4, "popularity": 0.1}
+}
